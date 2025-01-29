@@ -9,7 +9,7 @@ reading: 0
 
 # Setup: Function Basics
 
-*Purpose*: Functions are our primary tool in carying out data analysis with the `tidyverse`. It is unreasonable to expect yourself to memorize every function and all its details. To that end, we'll learn some basic _function literacy_ in R; how to inspect a function, look up its documentation, and find examples on a function's use.
+*Purpose*: Functions are our primary tool in carying out data analysis with the `tidyverse`. It is unreasonable to expect yourself to memorize every function and all its details. To that end, we'll learn some basic *function literacy* in R; how to inspect a function, look up its documentation, and find examples on a function's use.
 
 *Reading*: (None, this is the reading)
 
@@ -21,8 +21,7 @@ For instance, to get help on the `lm()` function, we could execute
 
 `> ?lm`
 
-*Note*: The `>` above is not part of the command; it automatically appears in our R console.
-*Hint*: In RStudio, we can press `CTRL + 2` to switch focus to the R console.
+*Note*: The `>` above is not part of the command; it automatically appears in our R console. *Hint*: In RStudio, we can press `CTRL + 2` to switch focus to the R console.
 
 Some functions are found in multiple packages; in this case, we need to click a link in the help panel. For instance, the following will open up a help panel with a few links:
 
@@ -32,7 +31,7 @@ Some functions are found in multiple packages; in this case, we need to click a 
 
 At this point, we should just pick a link, and go back if it's not relevant.
 
-### __q1__ Read the docs
+### **q1** Read the docs
 
 Get help on the built-in `rnorm` function.
 
@@ -51,7 +50,7 @@ rbind
 
 Calling the function this way shows its *source code*. This can sometimes be helpful for understanding, but isn't (usually) what we want out of our functions.
 
-### __q2__ Show source code
+### **q2** Show source code
 
 Show the source code for `lm`.
 
@@ -97,12 +96,11 @@ The best way to figure out what arguments a function requires is to *read its do
 
 *Nerdy aside*: Computer scientists draw a distinction between "parameters" and "arguments"---there's a [Wikipedia article](https://en.wikipedia.org/wiki/Parameter_(computer_programming)) about this.
 
-### __q3__ Read the docs
+### **q3** Read the docs
 
 Using either the documentation or the source, determine the arguments for `rnorm`.
 
-
-### __q4__ Call the function
+### **q4** Call the function
 
 Using what you learned in q3, generate a random sample of size `n = 10` using `rnorm`.
 
@@ -114,14 +112,14 @@ Using what you learned in q3, generate a random sample of size `n = 10` using `r
 
 Practically, one of the best ways to use a function is to find an *example* that's close to your intended use, and adapt that example. R documentation tends to be very good with many relevant examples. The examples are often at the *bottom* of the documentation, so sometimes it's best to just scroll to the bottom and check the examples.
 
-### __q5__ Adapt an example
+### **q5** Adapt an example
 
 Look up the documentation for the function `tribble`, and figure out how to create the following data.
 
-| u | w |
-|---|---|
-| 1 | 2 |
-| 3 | 4 |
+| u   | w   |
+|-----|-----|
+| 1   | 2   |
+| 3   | 4   |
 
 *Hint*: Adapt an example!
 
@@ -129,9 +127,10 @@ Look up the documentation for the function `tribble`, and figure out how to crea
 ## Write your code here
 ```
 
-
 <!-- include-exit-ticket -->
+
 # Exit Ticket
+
 <!-- -------------------------------------------------- -->
 
 Once you have completed this exercise, make sure to fill out the **exit ticket survey**, [linked here](https://docs.google.com/forms/d/e/1FAIpQLSeuq2LFIwWcm05e8-JU84A3irdEL7JkXhMq5Xtoalib36LFHw/viewform?usp=pp_url&entry.693978880=e-setup02-functions-assignment.Rmd).
