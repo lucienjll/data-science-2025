@@ -159,7 +159,7 @@ df_titanic %>% summarize(total = sum(n))
 ## TASK: Visualize counts against `Class` and `Sex`
 df_titanic %>% filter(Survived == "Yes") %>%
   ggplot(aes(x = Class, y = n, fill = Sex)) +
-    geom_col() 
+    geom_col(position = "dodge") 
 ```
 
 ![](c01-titanic-assignment_files/figure-gfm/q3-task-1.png)<!-- -->
@@ -221,7 +221,7 @@ df_prop
 ``` r
 df_prop %>% filter(Survived == "Yes") %>%
   ggplot(aes(x = Class, y = Prop, fill = Sex)) +
-    geom_col() 
+  geom_col(position = "dodge") 
 ```
 
     ## Warning: Removed 2 rows containing missing values or values outside the scale range
@@ -234,9 +234,11 @@ df_prop %>% filter(Survived == "Yes") %>%
 - Write your observations here.
 - Is there anything *fishy* going on in your plot?
   - (Your response here)
-  - Here, I am noticing that that the majority of the first class
-    survived. Although the number of crew members that survived was the
-    highest, it seems that most of the crew members didn’t survive.
+  - Here, I am noticing that that the entirety of the first and second
+    class survived. I find this graph fishy because it implies that only
+    3rd class and crew members suffered casualties. Although the number
+    of crew members that survived was the highest, it seems that most of
+    the crew members didn’t survive.
   - To fish for the fishyness, I took a look into the code used to set
     the proportions of each surviving groups. What I found was that we
     were finding the average number of people that survived within the
@@ -258,7 +260,7 @@ df_prop <-
   df_titanic %>%
   group_by(Class, Sex, Age) %>%
   mutate(
-    Total = 2201,
+    Total = sum(n),
     Prop = n / Total
   ) %>%
   ungroup()
@@ -266,8 +268,11 @@ df_prop <-
 
 df_prop %>% filter(Survived == "Yes") %>%
   ggplot(aes(x = Class, y = Prop, fill = Sex)) +
-    geom_col() + facet_wrap(~ Age)
+    geom_col(position = "dodge") + facet_wrap(~ Age)
 ```
+
+    ## Warning: Removed 2 rows containing missing values or values outside the scale range
+    ## (`geom_col()`).
 
 ![](c01-titanic-assignment_files/figure-gfm/q5-task-1.png)<!-- -->
 
@@ -277,16 +282,13 @@ df_prop %>% filter(Survived == "Yes") %>%
 - If you saw something *fishy* in q4 above, use your new plot to explain
   the fishy-ness.
   - (Your response here)
-  - Here, I fixed the fishyness by setting the total to 2201. The
-    generated graph now shows the percentage of survivors against the
-    total percentage. We can see that a majority of the survivors were
-    first class males. In fact, most of the surviving crew members are
-    adults. However, I do find some aspects of the fishyness in the
-    graphs useful. For example, in a now over-written graph, I found
-    that 100% of the circle seemed to survive. In this new graph, we
-    barely see any children surviving. Perhaps another graph that
-    displays the percentage of survivors in a class relative to that
-    class would be a great addition to this study.
+  - By isolating the classifications by sex, age, and class, we can now
+    clearly see the survival rates for each class. This graph shows that
+    most of the female passengers and crew members survived. The
+    children from both the 1st and 2nd classes also survived. I believe
+    the fishy-ness came from the children’s surivival rates. Since we
+    didn’t have an age aesthetic, the survival rates for the children
+    were instead displayed.
 
 # Notes
 
