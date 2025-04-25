@@ -113,13 +113,13 @@ diamonds %>%
 
 **Observations**:
 
-- As the carat quality increases, the price also increases. This trend
-  is most visible when looking at the trend as the carat increases from
-  0 to 1. During this growth in the x-axis, we can see that the values
-  in the y-axis, the price, is also increasing. From this section of the
-  data, it appears that the growth is linear too. In other parts of the
-  graph, we can directly compare higher carats to lower carats. From
-  this graph, the lowest data point for the 3 carat diamonds have a
+- As the carat quality increases, the price tends to also increase. This
+  trend is most visible when looking at the trend as the carat increases
+  from 0 to 1. During this growth in the x-axis, we can see that the
+  values in the y-axis, the price, is also increasing. From this section
+  of the data, it appears that the growth is linear too. In other parts
+  of the graph, we can directly compare higher carats to lower carats.
+  From this graph, the lowest data point for the 3 carat diamonds have a
   price of around 7000, which is higher than any of the 0.3 carat
   diamonds.
 - While there is a general trend, finding one curve to define the trend
@@ -145,9 +145,9 @@ diamonds %>%
 
 **Observations**:
 
-- The price increases as the carat increases. This is shown in the graph
-  as a high carat with the lowest cut quality succeeds smaller carat
-  diamonds with the ideal cut quality.
+- The price tends to increase as the carat increases. This is shown in
+  the graph as a high carat with the lowest cut quality succeeds smaller
+  carat diamonds with the ideal cut quality.
 - The cut quality affects the price, where ideal cuts are generally more
   expensive than fair cuts. This graph shows this as for each carat, the
   ideal and premium diamonds tend to reside at higher prices for that
