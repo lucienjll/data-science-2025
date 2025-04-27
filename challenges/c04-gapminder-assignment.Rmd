@@ -79,10 +79,17 @@ names(gapminder)
 ```{r q1-task}
 ## TASK: Find the largest and smallest values of `year` in `gapminder`
 year_max <- 
-    max(pull(gapminder, year))
+    gapminder %>%
+      pull(year) %>%
+      max()
+
 year_max
+
 year_min <- 
-    min(pull(gapminder, year))
+    gapminder %>%
+      pull(year) %>%
+      min()
+
 year_min
 ```
 
@@ -279,7 +286,7 @@ gapminder %>%
 ```
 
 -   (Your notes and observations here)
--   This boxplot looks at the trends of how each continents' GDP per Capita increases every ~10 years. I see that generally, the trend is increasing, but developing a linear regression model for the data might be difficult since certain continents such as Asia and Europe have an increased distribution compared to the others. Unless I outline what country the specific outliers are, I can't determine whether the countries themselves have increased or decreased.
+-   This boxplot looks at the trends of how each continents' GDP per Capita increases every \~10 years. I see that generally, the trend is increasing, but developing a linear regression model for the data might be difficult since certain continents such as Asia and Europe have an increased distribution compared to the others. Unless I outline what country the specific outliers are, I can't determine whether the countries themselves have increased or decreased.
 
 ```{r q5-task3}
 ## TASK: Your third graph
@@ -297,4 +304,4 @@ gapminder %>%
 
 ```
 
--   This is a line plot that I wanted to look at the trends of the outliers that I identified in a previous problem. I noticed that while all the continents demonstrated a positive growth in GDP per Capita, Kuwait was a country that demonstrated negative growth. Perhaps something that I would like to look further for this plot is to find the reasoning behind this GDP per Capita decrease. I speculate that this may be due to population, which is a graph that I would like to look at.  
+-   This is a line plot that I wanted to look at the trends of the outliers that I identified in a previous problem. I noticed that while all the continents demonstrated a positive growth in GDP per Capita, Kuwait was a country that demonstrated negative growth. Perhaps something that I would like to look further for this plot is to find the reasoning behind this GDP per Capita decrease. I speculate that this may be due to population, which is a graph that I would like to look at.

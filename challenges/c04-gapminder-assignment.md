@@ -142,7 +142,10 @@ names(gapminder)
 ``` r
 ## TASK: Find the largest and smallest values of `year` in `gapminder`
 year_max <- 
-    max(pull(gapminder, year))
+    gapminder %>%
+      pull(year) %>%
+      max()
+
 year_max
 ```
 
@@ -150,7 +153,10 @@ year_max
 
 ``` r
 year_min <- 
-    min(pull(gapminder, year))
+    gapminder %>%
+      pull(year) %>%
+      min()
+
 year_min
 ```
 
