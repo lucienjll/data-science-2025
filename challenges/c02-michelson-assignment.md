@@ -262,14 +262,20 @@ LIGHTSPEED_PM * 2
 
     ## [1] 102
 
-**Observations**: - Is Michelson’s estimate of the error (his
-uncertainty) greater or less than the true error? - Michelson’s error
-estimate is less than the true error. - Make a quantitative comparison
-between Michelson’s uncertainty and his error. - The true error was
-151.542 km/s. Michelson’s uncertainty causes him to give an error
-estimate of +/- 56, with a full range of 102 km/s. This mean that
-Michelson’s uncertainty wasn’t able to capture the true value of the
-uncertainty.
+**Observations**:
+
+- Is Michelson’s estimate of the error (his uncertainty) greater or less
+  than the true error?
+
+  - Michelson’s error estimate is less than the true error.
+
+- Make a quantitative comparison between Michelson’s uncertainty and his
+  error.
+
+  - The true error was 151.542 km/s. Michelson’s uncertainty caused him
+    to give an error estimate of +/—56, with a full range of 102 km/s.
+    This means that Michelson’s uncertainty wasn’t able to capture the
+    value of the true error.
 
 The following plot shows all of Michelson’s data as a [control
 chart](https://en.wikipedia.org/wiki/Control_chart); this sort of plot
@@ -346,15 +352,21 @@ df_q2 %>%
 
 ![](c02-michelson-assignment_files/figure-gfm/q4-cf-real-simulated-1.png)<!-- -->
 
-**Observations**: Similarities - The general trend is replicated
-similarly in the simulated model, where the mean of greater measurements
-were measured on similar dates. Overall, both simulated and real control
-graphs were shown to be within the bounds set by Michelson’s error
-estimate. Differences - I noticed that in the real data, there were more
-outliers that went outside of the error estimates, which leads me to
-wonder why the error estimate wasn’t bigger to account for the outliers.
-The simulated model had means that were mostly contained within the
-error measurements.
+**Observations**:
+
+Similarities - The general trend is replicated similarly in the
+simulated model, where the mean of greater measurements was measured on
+similar dates. In both simulation and real control graphs, there are
+sections in the mean trend line that exceed Michelson’s error estimate,
+with the real control graph having the mean trend line exceed the limits
+during the period of early June whereas the simulated mean trendline
+exceeding Mechelson’s error estimate around late June.
+
+Differences - I noticed that in the real data, there were more outliers
+that went outside of the error estimates, which leads me to wonder why
+the error estimate wasn’t bigger to account for the outliers. The
+simulated model had means that were mostly contained within the error
+measurements.
 
 ### **q5** You have access to a few other variables. Construct a **at least three** visualizations of `VelocityVacuum` against these other factors. Are there other patterns in the data that might help explain the difference between Michelson’s estimate and `LIGHTSPEED_VACUUM`?
 
@@ -415,7 +427,7 @@ df_q2 %>%
     )
   ) +
   geom_point() +
-  geom_line(
+  geom_smooth(
     data = . %>%
       group_by(Temp) %>%
       summarize(velocity_mean = mean(VelocityVacuum)),
@@ -436,6 +448,8 @@ df_q2 %>%
   )
 ```
 
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
 ![](c02-michelson-assignment_files/figure-gfm/unnamed-chunk-2-3.png)<!-- -->
 
 ``` r
@@ -448,7 +462,7 @@ df_q2 %>%
     )
   ) +
   geom_point() +
-  geom_line(
+  geom_smooth(
     data = . %>%
       group_by(Date) %>%
       summarize(velocity_mean = mean(VelocityVacuum)),
@@ -468,6 +482,8 @@ df_q2 %>%
     linetype = "dashed"
   )
 ```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 
 ![](c02-michelson-assignment_files/figure-gfm/unnamed-chunk-2-4.png)<!-- -->
 
