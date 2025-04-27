@@ -280,8 +280,11 @@ df_stang_long %>%
 **Observations**:
 
 - Is there “one true value” for the material properties of Aluminum?
-  - The “true” value that I picked was the average measured Young’s
-    Modulus, though I could’ve done the same with Poisson’s ratio.
+  - I don’t think there one true value for the material properties of
+    aluminum because there is variability in the data due to the
+    different rolling angles. While I think that the mean can be
+    abstract the material properties into a single value, I don’t think
+    the mean is the single true value.
 - How many aluminum alloys are in this dataset? How do you know?
   - There is one aluminum alloy in this dataset,
 - What angles were tested?
@@ -304,7 +307,8 @@ df_stang_long %>%
       x = thick,
       y = nu
     )
-  ) + geom_point()
+  ) + 
+  geom_point()
 ```
 
 ![](c03-stang-assignment_files/figure-gfm/q3-task-1.png)<!-- -->
