@@ -165,40 +165,39 @@ To check your results, this is Table `B01003`.
 
 ``` r
 ## TASK: Load the census bureau data with the following tibble name.
-df_pop <- read_csv("data/ACSDT5Y2018.B01003-Data.csv", col_names = TRUE)
+df_pop <- 
+  read_csv("data/ACSDT5Y2018.B01003-Data.csv", col_names = TRUE, skip = 1) %>%
+  rename(id = Geography) %>%
+  select(-last_col())
 ```
 
     ## New names:
-    ## Rows: 3221 Columns: 5
+    ## Rows: 3220 Columns: 5
     ## ── Column specification
     ## ──────────────────────────────────────────────────────── Delimiter: "," chr
-    ## (4): GEO_ID, NAME, B01003_001E, B01003_001M lgl (1): ...5
+    ## (3): Geography, Geographic Area Name, Margin of Error!!Total dbl (1):
+    ## Estimate!!Total lgl (1): ...5
     ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
     ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## • `` -> `...5`
 
 ``` r
-new_colnames <- df_pop %>% slice(1) %>% unlist()
-df_pop <- df_pop %>% slice(-1)
-colnames(df_pop) <- new_colnames
-colnames(df_pop)[1] <- "id"
-df_pop <- df_pop %>% select(-ncol(df_pop))
 df_pop
 ```
 
     ## # A tibble: 3,220 × 4
     ##    id            `Geographic Area Name` `Estimate!!Total` Margin of Error!!Tot…¹
-    ##    <chr>         <chr>                  <chr>             <chr>                 
-    ##  1 0500000US010… Autauga County, Alaba… 55200             *****                 
-    ##  2 0500000US010… Baldwin County, Alaba… 208107            *****                 
-    ##  3 0500000US010… Barbour County, Alaba… 25782             *****                 
-    ##  4 0500000US010… Bibb County, Alabama   22527             *****                 
-    ##  5 0500000US010… Blount County, Alabama 57645             *****                 
-    ##  6 0500000US010… Bullock County, Alaba… 10352             *****                 
-    ##  7 0500000US010… Butler County, Alabama 20025             *****                 
-    ##  8 0500000US010… Calhoun County, Alaba… 115098            *****                 
-    ##  9 0500000US010… Chambers County, Alab… 33826             *****                 
-    ## 10 0500000US010… Cherokee County, Alab… 25853             *****                 
+    ##    <chr>         <chr>                              <dbl> <chr>                 
+    ##  1 0500000US010… Autauga County, Alaba…             55200 *****                 
+    ##  2 0500000US010… Baldwin County, Alaba…            208107 *****                 
+    ##  3 0500000US010… Barbour County, Alaba…             25782 *****                 
+    ##  4 0500000US010… Bibb County, Alabama               22527 *****                 
+    ##  5 0500000US010… Blount County, Alabama             57645 *****                 
+    ##  6 0500000US010… Bullock County, Alaba…             10352 *****                 
+    ##  7 0500000US010… Butler County, Alabama             20025 *****                 
+    ##  8 0500000US010… Calhoun County, Alaba…            115098 *****                 
+    ##  9 0500000US010… Chambers County, Alab…             33826 *****                 
+    ## 10 0500000US010… Cherokee County, Alab…             25853 *****                 
     ## # ℹ 3,210 more rows
     ## # ℹ abbreviated name: ¹​`Margin of Error!!Total`
 
@@ -278,7 +277,7 @@ df_pop %>% glimpse
     ## Columns: 4
     ## $ id                       <chr> "0500000US01001", "0500000US01003", "0500000U…
     ## $ `Geographic Area Name`   <chr> "Autauga County, Alabama", "Baldwin County, A…
-    ## $ `Estimate!!Total`        <chr> "55200", "208107", "25782", "22527", "57645",…
+    ## $ `Estimate!!Total`        <dbl> 55200, 208107, 25782, 22527, 57645, 10352, 20…
     ## $ `Margin of Error!!Total` <chr> "*****", "*****", "*****", "*****", "*****", …
 
 ``` r
@@ -338,17 +337,17 @@ df_q4
 
     ## # A tibble: 2,502,832 × 10
     ##    id      `Geographic Area Name` `Estimate!!Total` Margin of Error!!Tot…¹ fips 
-    ##    <chr>   <chr>                  <chr>             <chr>                  <chr>
-    ##  1 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  2 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  3 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  4 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  5 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  6 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  7 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  8 050000… Autauga County, Alaba… 55200             *****                  01001
-    ##  9 050000… Autauga County, Alaba… 55200             *****                  01001
-    ## 10 050000… Autauga County, Alaba… 55200             *****                  01001
+    ##    <chr>   <chr>                              <dbl> <chr>                  <chr>
+    ##  1 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  2 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  3 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  4 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  5 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  6 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  7 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  8 050000… Autauga County, Alaba…             55200 *****                  01001
+    ##  9 050000… Autauga County, Alaba…             55200 *****                  01001
+    ## 10 050000… Autauga County, Alaba…             55200 *****                  01001
     ## # ℹ 2,502,822 more rows
     ## # ℹ abbreviated name: ¹​`Margin of Error!!Total`
     ## # ℹ 5 more variables: date <date>, county <chr>, state <chr>, cases <dbl>,
@@ -559,7 +558,8 @@ upper_bound <- quantile(df_normalized_NA_removed$cases_per100k, 0.75) + 1.5*IQR(
 df_cases100k <- 
   df_normalized_NA_removed %>% 
   filter(population >= 10000) %>% 
-  filter(cases_per100k >= lower_bound & cases_per100k <= upper_bound)
+  filter(cases_per100k >= lower_bound & cases_per100k <= upper_bound) %>%
+  filter(date == "2022-01-19")
 
 df_normalized_NA_removed <- df_normalized %>% 
   filter(!is.na(deaths_per100k)) %>% 
@@ -571,7 +571,8 @@ upper_bound <- quantile(df_normalized_NA_removed$deaths_per100k, 0.75) + 1.5*IQR
 df_deaths100k <- 
   df_normalized_NA_removed %>% 
   filter(population >= 10000) %>% 
-  filter(deaths_per100k >= lower_bound & deaths_per100k <= upper_bound)
+  filter(deaths_per100k >= lower_bound & deaths_per100k <= upper_bound) %>%
+  filter(date == "2022-01-19")
 
 
 mean_sd <- tibble(
@@ -584,20 +585,23 @@ mean_sd
 ```
 
     ## # A tibble: 2 × 3
-    ##   data    mean    sd
-    ##   <chr>  <dbl> <dbl>
-    ## 1 Cases  9828. 8281.
-    ## 2 Deaths  165.  142.
+    ##   data     mean    sd
+    ##   <chr>   <dbl> <dbl>
+    ## 1 Cases  20609. 4199.
+    ## 2 Deaths   305.  118.
 
 - Which rows did you pick?
   - I picked rows that didn’t have NA values and values that were within
     in lower and upper quartiles. I also filtered out countries that had
-    populations that were less than 10000.
+    populations that were less than 10000. I also chose to isolate the
+    date as January 19, 2022.
 - Why?
   - I decided to filter out the data because they skewed the mean too
     much. When we normalized the data to that per 100k, small population
     countries with around a hundred deaths would result in around a
-    thousand deaths, which would skew the data too much.
+    thousand deaths, which would skew the data too much.I chose that
+    particular January date because that is when the Omicron variant had
+    a surge in worldwide cases.
 
 ### **q7** Find and compare the top 10
 
@@ -610,11 +614,13 @@ you found in q6. Note any observations.
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 
 top_cases <- df_normalized %>% 
+  filter(date == "2022-01-19") %>%
   arrange(desc(cases_per100k)) %>% 
   distinct(county, .keep_all = TRUE) %>% 
-  head(10)
+  head(10) 
 
 top_deaths <- df_normalized %>% 
+  filter(date == "2022-01-19") %>%
   arrange(desc(deaths_per100k)) %>% 
   distinct(county, .keep_all = TRUE) %>% 
   head(10)
@@ -622,55 +628,55 @@ top_deaths <- df_normalized %>%
 top_cases
 ```
 
-    ##          date                   county        state  fips cases deaths
-    ## 1  2022-05-12                   Loving        Texas 48301   196      1
-    ## 2  2022-05-11            Chattahoochee      Georgia 13053  7486     22
-    ## 3  2022-05-11         Nome Census Area       Alaska 02180  6245      5
-    ## 4  2022-05-11 Northwest Arctic Borough       Alaska 02188  4837     13
-    ## 5  2022-05-13                  Crowley     Colorado 08025  3347     30
-    ## 6  2022-05-11       Bethel Census Area       Alaska 02050 10362     41
-    ## 7  2022-03-30                    Dewey South Dakota 46041  3139     42
-    ## 8  2022-05-12                   Dimmit        Texas 48127  5760     51
-    ## 9  2022-05-12                 Jim Hogg        Texas 48247  2648     22
-    ## 10 2022-05-11     Kusilvak Census Area       Alaska 02158  4084     14
-    ##    population cases_per100k deaths_per100k
-    ## 1         102     192156.86      980.39216
-    ## 2       10767      69527.26      204.32804
-    ## 3        9925      62921.91       50.37783
-    ## 4        7734      62542.02      168.08896
-    ## 5        5630      59449.38      532.85968
-    ## 6       18040      57439.02      227.27273
-    ## 7        5779      54317.36      726.76934
-    ## 8       10663      54018.57      478.28941
-    ## 9        5282      50132.53      416.50890
-    ## 10       8198      49817.03      170.77336
+    ##          date             county        state  fips   cases deaths population
+    ## 1  2022-01-19             Loving        Texas 48301      77      0        102
+    ## 2  2022-01-19      Chattahoochee      Georgia 13053    6526     21      10767
+    ## 3  2022-01-19            Crowley     Colorado 08025    2719     27       5630
+    ## 4  2022-01-19             Dimmit        Texas 48127    4745     48      10663
+    ## 5  2022-01-19 Bethel Census Area       Alaska 02050    7481     37      18040
+    ## 6  2022-01-19              Dewey South Dakota 46041    2325     36       5779
+    ## 7  2022-01-19         Miami-Dade      Florida 12086 1051508   9414    2715516
+    ## 8  2022-01-19          Trousdale    Tennessee 47169    3632     38       9573
+    ## 9  2022-01-19              Teton      Wyoming 56039    8638     14      23059
+    ## 10 2022-01-19          Menominee    Wisconsin 55078    1659     12       4579
+    ##    cases_per100k deaths_per100k
+    ## 1       75490.20        0.00000
+    ## 2       60611.13      195.04040
+    ## 3       48294.85      479.57371
+    ## 4       44499.67      450.15474
+    ## 5       41468.96      205.09978
+    ## 6       40231.87      622.94515
+    ## 7       38722.22      346.67444
+    ## 8       37940.04      396.94975
+    ## 9       37460.43       60.71382
+    ## 10      36230.62      262.06595
 
 ``` r
 top_deaths
 ```
 
-    ##          date            county        state  fips cases deaths population
-    ## 1  2022-02-19          McMullen        Texas 48311   166      9        662
-    ## 2  2022-04-27        Galax city     Virginia 51640  2551     78       6638
-    ## 3  2022-03-10            Motley        Texas 48345   271     13       1156
-    ## 4  2022-04-20           Hancock      Georgia 13141  1577     90       8535
-    ## 5  2022-04-19      Emporia city     Virginia 51595  1169     55       5381
-    ## 6  2022-04-27             Towns      Georgia 13281  2396    116      11417
-    ## 7  2022-02-14           Jerauld South Dakota 46073   404     20       2029
-    ## 8  2022-03-04            Loving        Texas 48301   165      1        102
-    ## 9  2022-02-03         Robertson     Kentucky 21201   570     21       2143
-    ## 10 2022-05-05 Martinsville city     Virginia 51690  3452    124      13101
+    ##          date       county        state  fips cases deaths population
+    ## 1  2022-01-19     McMullen        Texas 48311   143      8        662
+    ## 2  2022-01-19   Galax city     Virginia 51640  2076     70       6638
+    ## 3  2022-01-19      Hancock      Georgia 13141  1428     83       8535
+    ## 4  2022-01-19      Jerauld South Dakota 46073   372     19       2029
+    ## 5  2022-01-19    Robertson     Kentucky 21201   505     19       2143
+    ## 6  2022-01-19         Gove       Kansas 20063   698     23       2619
+    ## 7  2022-01-19      Harding   New Mexico 35021    64      4        459
+    ## 8  2022-01-19 Emporia city     Virginia 51595   990     46       5381
+    ## 9  2022-01-19      Candler      Georgia 13043  1812     91      10827
+    ## 10 2022-01-19      Buffalo South Dakota 46017   574     17       2053
     ##    cases_per100k deaths_per100k
-    ## 1       25075.53      1359.5166
-    ## 2       38430.25      1175.0527
-    ## 3       23442.91      1124.5675
-    ## 4       18476.86      1054.4815
-    ## 5       21724.59      1022.1148
-    ## 6       20986.25      1016.0287
-    ## 7       19911.29       985.7072
-    ## 8      161764.71       980.3922
-    ## 9       26598.23       979.9347
-    ## 10      26349.13       946.4926
+    ## 1       21601.21      1208.4592
+    ## 2       31274.48      1054.5345
+    ## 3       16731.11       972.4663
+    ## 4       18334.15       936.4219
+    ## 5       23565.10       886.6076
+    ## 6       26651.39       878.1978
+    ## 7       13943.36       871.4597
+    ## 8       18398.07       854.8597
+    ## 9       16735.94       840.4914
+    ## 10      27959.08       828.0565
 
 ``` r
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
@@ -726,6 +732,7 @@ df_normalized %>%
 ```
 
 ![](c06-covid19-assignment_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
 From my analysis in a previous question, I was curious to see why most
 of the deaths occured around 2022. I took my home county, and one of the
 higher infected counties to compare. The spike at 2022 seemed to be the

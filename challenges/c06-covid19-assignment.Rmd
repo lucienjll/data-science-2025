@@ -88,12 +88,11 @@ That's the high-level view; now let's dig into the details.
 
 ```{r q1-task}
 ## TASK: Load the census bureau data with the following tibble name.
-df_pop <- read_csv("data/ACSDT5Y2018.B01003-Data.csv", col_names = TRUE)
-new_colnames <- df_pop %>% slice(1) %>% unlist()
-df_pop <- df_pop %>% slice(-1)
-colnames(df_pop) <- new_colnames
-colnames(df_pop)[1] <- "id"
-df_pop <- df_pop %>% select(-ncol(df_pop))
+df_pop <- 
+  read_csv("data/ACSDT5Y2018.B01003-Data.csv", col_names = TRUE, skip = 1) %>%
+  rename(id = Geography) %>%
+  select(-last_col())
+
 df_pop
   
 ```
@@ -328,7 +327,8 @@ upper_bound <- quantile(df_normalized_NA_removed$cases_per100k, 0.75) + 1.5*IQR(
 df_cases100k <- 
   df_normalized_NA_removed %>% 
   filter(population >= 10000) %>% 
-  filter(cases_per100k >= lower_bound & cases_per100k <= upper_bound)
+  filter(cases_per100k >= lower_bound & cases_per100k <= upper_bound) %>%
+  filter(date == "2022-01-19")
 
 df_normalized_NA_removed <- df_normalized %>% 
   filter(!is.na(deaths_per100k)) %>% 
@@ -340,7 +340,8 @@ upper_bound <- quantile(df_normalized_NA_removed$deaths_per100k, 0.75) + 1.5*IQR
 df_deaths100k <- 
   df_normalized_NA_removed %>% 
   filter(population >= 10000) %>% 
-  filter(deaths_per100k >= lower_bound & deaths_per100k <= upper_bound)
+  filter(deaths_per100k >= lower_bound & deaths_per100k <= upper_bound) %>%
+  filter(date == "2022-01-19")
 
 
 mean_sd <- tibble(
@@ -355,9 +356,9 @@ mean_sd
 ```
 
 -   Which rows did you pick?
-    -   I picked rows that didn't have NA values and values that were within in lower and upper quartiles. I also filtered out countries that had populations that were less than 10000. 
+    -   I picked rows that didn't have NA values and values that were within in lower and upper quartiles. I also filtered out countries that had populations that were less than 10000. I also chose to isolate the date as January 19, 2022. 
 -   Why?
-    -   I decided to filter out the data because they skewed the mean too much. When we normalized the data to that per 100k, small population countries with around a hundred deaths would result in around a thousand deaths, which would skew the data too much. 
+    -   I decided to filter out the data because they skewed the mean too much. When we normalized the data to that per 100k, small population countries with around a hundred deaths would result in around a thousand deaths, which would skew the data too much.I chose that particular January date because that is when the Omicron variant had a surge in worldwide cases. 
 
 ### **q7** Find and compare the top 10
 
@@ -367,11 +368,13 @@ Find the top 10 counties in terms of `cases_per100k`, and the top 10 in terms of
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 
 top_cases <- df_normalized %>% 
+  filter(date == "2022-01-19") %>%
   arrange(desc(cases_per100k)) %>% 
   distinct(county, .keep_all = TRUE) %>% 
-  head(10)
+  head(10) 
 
 top_deaths <- df_normalized %>% 
+  filter(date == "2022-01-19") %>%
   arrange(desc(deaths_per100k)) %>% 
   distinct(county, .keep_all = TRUE) %>% 
   head(10)
@@ -384,11 +387,11 @@ top_deaths
 **Observations**:
 
 -   (Note your observations here!)
-    - The southern states tended to have more deaths. 
-    - Texas had the most cases and the most deaths in different counties.
-    - Interestingly, I notied that the top 1, Loving, Texas, had more caess than population. This introduces the issue of reinfection, which is something that this dataset seems to contain, but I don't know the percentage of cases due to reinfection. 
+    -   The southern states tended to have more deaths.
+    -   Texas had the most cases and the most deaths in different counties.
+    -   Interestingly, I notied that the top 1, Loving, Texas, had more caess than population. This introduces the issue of reinfection, which is something that this dataset seems to contain, but I don't know the percentage of cases due to reinfection.
 -   When did these "largest values" occur?
-    -   The largest values all occured around May of 2022. 
+    -   The largest values all occured around May of 2022.
 
 ## Self-directed EDA
 
@@ -408,6 +411,7 @@ top_deaths
 -   Your own idea!
 
 **DO YOUR OWN ANALYSIS HERE**
+
 ```{r}
 df_normalized %>%
   filter(county == "San Francisco" | county == "Chattahoochee") %>%
@@ -424,7 +428,8 @@ df_normalized %>%
     title = "San Francisco Normalized Cases",
   )
 ```
-From my analysis in a previous question, I was curious to see why most of the deaths occured around 2022. I took my home county, and one of the higher infected counties to compare. The spike at 2022 seemed to be the same across both counties, though in different magnitudes. I believe around this time, a new Covid variant had been passing around, specifically the Omicron variant. The plateu after the spike seems to dictate a phase of vaccination, where no new cases were being recorded. 
+
+From my analysis in a previous question, I was curious to see why most of the deaths occured around 2022. I took my home county, and one of the higher infected counties to compare. The spike at 2022 seemed to be the same across both counties, though in different magnitudes. I believe around this time, a new Covid variant had been passing around, specifically the Omicron variant. The plateu after the spike seems to dictate a phase of vaccination, where no new cases were being recorded.
 
 ### Aside: Some visualization tricks
 
