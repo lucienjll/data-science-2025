@@ -127,15 +127,15 @@ you still need to count, because your numbers *will* be different!
   anywhere. You will have to count them!)
   - 4
 - What percent of homes are *occupied*?
-  - 96.93%
+  - 546/550 = 99%
 - Are there any sources of *real* uncertainty in the percent occupied
   you calculated?
   - Yes, because there are unpredictable variables that may force homes
     to be occupied/unoccupied.
 - Are there any sources of *erroneous* uncertainty in the percent
   occupied you calculated?
-  - No because I don’t think there are actions that we researchers can
-    do to force homes to be occupied/unoccupied.
+  - Yes, because there is the possibility that we as the researchers
+    accidentally miscounted homes.
 
 Zach looked at the first 25 homes in Helvig and recorded the `age` and
 `name` of every person in those homes. These people are provided in
@@ -249,8 +249,14 @@ print("Very good!")
   - The most prevalent last name is Sorenson.
 - Is this sample representative of *all* houses in Helvig? Why or why
   not?
-  - No because the names may be biases due to folks living in the same
-    household most likely having the same name.
+  - No because in sequential sampling, we are picking homes that are
+    near each other. Essentially, we are choosing a neighborhood since
+    it is possible that folks who live near each other to share common
+    groups and traits. By sampling in sequential order, it is possible
+    to sample houses of one neighborhood, and end up missing out other
+    neighborhoods that contain people of other groups. Therefore,
+    sequential sampling is unable to represent all of the houses in
+    Helvig.
 
 In the exercises, we talked about the importance of random sampling. In
 the previous challenge, we were able to *simulate* a random sample by
@@ -485,7 +491,7 @@ df
     ##         .Call(C_df, x, df1, df2, log)
     ##     else .Call(C_dnf, x, df1, df2, ncp, log)
     ## }
-    ## <bytecode: 0x00000112e6faa160>
+    ## <bytecode: 0x0000022504fa6470>
     ## <environment: namespace:stats>
 
 Use the following code to check your results.
