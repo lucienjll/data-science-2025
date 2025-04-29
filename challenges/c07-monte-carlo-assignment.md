@@ -252,7 +252,7 @@ Answer the questions below.
 stat <- function(x, y) {
   # TODO: Finish implementing this function
   circle <- (x^2 + y^2) <= 1
-  4 * mean(circle)
+  4 * circle
 }
 
 ## stat(df_q1$x, df_q1$y)
@@ -321,7 +321,10 @@ Using your data in `df_q1`, estimate $\pi$.
 df_q3 <- 
   df_q1 %>% 
   # TODO: Estimate pi as the column `pi_est`
-  summarize(pi_est = stat(x, y))
+    mutate(
+      stat_value = stat(x, y)
+    ) %>%
+  summarize(pi_est = mean(stat_value))
 
 df_q3
 ```
@@ -389,7 +392,10 @@ df_q4 <-
           # Estimate pi (pi_est) using the resampled data;
           # this should be *identical* to the
           # code you wrote for q3
-          summarize(pi_est = 4 * mean(x^2 + y^2 <= 1)) %>%
+          mutate(
+            stat_value = stat(x, y)
+          ) %>%
+          summarize(pi_est = mean(stat_value)) %>%
           pull(pi_est)
       }
     )
@@ -466,8 +472,8 @@ clt_ci <- c(
 clt_ci
 ```
 
-    ##   lo_q6   hi_q6 
-    ## 3.11978 3.15759
+    ##    lo_q6    hi_q6 
+    ## 3.119810 3.157413
 
 **Observations**:
 
