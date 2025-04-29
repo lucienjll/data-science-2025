@@ -135,12 +135,12 @@ df_antibiotics %>%
     aes(
       x = drugs,
       y = bacteria,
-      size = concentrations,
-      color = concentrations,
+      color = log(concentrations),
       shape = gram
     )
   ) +
-  geom_point(alpha = .7)
+  geom_point(size = 4) +
+  scale_color_gradient(low = "Black", high = "Red") 
 ```
 
 #### Visual 3 (Some variables)
@@ -165,7 +165,7 @@ df_antibiotics %>%
     aes(
       x = bacteria,
       y = concentrations,
-      color = satisfactory
+      fill = satisfactory
     )
   ) +
   geom_col() +
@@ -191,13 +191,18 @@ df_antibiotics %>%
   ggplot(
     aes(
       x = concentrations,
-      y = gram,
-      color = bacteria
+      fill = gram,
+      y = bacteria
     )
   ) + 
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+    ) +
   geom_col(position = position_dodge()) +
   coord_flip() +
-  scale_x_log10() 
+  scale_x_log10() +
+  labs(title = "Penicillin Tests")
 
 df_antibiotics %>%
   pivot_longer(
@@ -209,13 +214,18 @@ df_antibiotics %>%
   ggplot(
     aes(
       x = concentrations,
-      y = gram,
-      color = bacteria
+      fill = gram,
+      y = bacteria
     )
   ) + 
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  ) +
   geom_col(position = position_dodge()) +
   coord_flip() +
-  scale_x_log10() 
+  scale_x_log10() + 
+  labs(title = "Streptomycin Tests")
 
 df_antibiotics %>%
   pivot_longer(
@@ -227,13 +237,18 @@ df_antibiotics %>%
   ggplot(
     aes(
       x = concentrations,
-      y = gram,
-      color = bacteria
+      fill = gram,
+      y = bacteria
     )
   ) + 
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  ) +
   geom_col(position = position_dodge()) +
   coord_flip() +
-  scale_x_log10() 
+  scale_x_log10() +
+  labs(title = "Neomycin Tests")
 ```
 
 #### Visual 5 (Some variables)
@@ -254,7 +269,7 @@ df_antibiotics %>%
     aes(
       x = bacteria,
       y = concentrations,
-      color = drugs
+      fill = drugs
     )
   ) +
   geom_col(position = position_dodge()) +
@@ -283,13 +298,15 @@ You may need to revise one or more of your visuals to answer the questions below
 - Streptomycin is more effective to baterica with positive gram strain.
 - Neomycin is more effective to bacteria with negative gram strain, although some positive strains are also highly effective.
 
-- Which of your visuals above (1 through 5) is **most effective** at helping to answer this question?
-- I mainly used the first plot, which was a scatterplot to visualize how the gram strain was related to the concentrations for all three antibiotics.
+-   Which of your visuals above (1 through 5) is **most effective** at helping to answer this question?
 
-- Why?
-- Since we want to compare all three antibiotics, it would make sense to look at visuals that explore all three at a time.
-My first visual had an x axis of logarithmic concentration, which allowed me to determine whether the MIC was satisfactory or not.
-I did create additional visuals to see if I could narrow down how each drug's concentration was related to the gram stain, but I found that it was more difficult to relate gram stain against the MIC concentrations.
+-   I mainly used the first plot, which was a scatterplot to visualize how the gram strain was related to the concentrations for all three antibiotics.
+
+-   Why?
+
+-   Since we want to compare all three antibiotics, it would make sense to look at visuals that explore all three at a time.
+    My first visual had an x axis of logarithmic concentration, which allowed me to determine whether the MIC was satisfactory or not.
+    I did create additional visuals to see if I could narrow down how each drug's concentration was related to the gram stain, but I found that it was more difficult to relate gram stain against the MIC concentrations.
 
 #### Guiding Question 2
 
@@ -298,13 +315,19 @@ In 1974 *Diplococcus pneumoniae* was renamed *Streptococcus pneumoniae*, and in 
 > Why was *Diplococcus pneumoniae* was renamed *Streptococcus pneumoniae*?
 
 *Observations* - What is your response to the question above?
-- From the data, I found that most bacteria classified as streptococcus were mainly gram negative. Furthermore, most of these bacteria are susceptible to penicillin, but are resistant to the other antibiotics. Looking at the bacteria pneumonia, we can see that pneumonia inhibits similar resistances to streptomycin and neomycin. 
+- From the data, I found that most bacteria classified as streptococcus were mainly gram negative.
+Furthermore, most of these bacteria are susceptible to penicillin, but are resistant to the other antibiotics.
+Looking at the bacteria pneumonia, we can see that pneumonia inhibits similar resistances to streptomycin and neomycin.
 
-- Which of your visuals above (1 through 5) is **most effective** at helping to answer this question?
-- For this graph, I found that visuals 1 and 3 were most helpful in identifying trends. 
+-   Which of your visuals above (1 through 5) is **most effective** at helping to answer this question?
 
-- Why?
-- The overall scatterplot in visual 1 is useful in identifying how Streptococcus bacteria are similar to each other. From that graph, I was able to point out the gram stain similarities as well as antibiotic resistances. Visual 3 is more specific (only penicillin), which is helpful in verifying that penicillin is only useful against certain bacteria strains. 
+-   For this graph, I found that visuals 1 and 3 were most helpful in identifying trends.
+
+-   Why?
+
+-   The overall scatterplot in visual 1 is useful in identifying how Streptococcus bacteria are similar to each other.
+    From that graph, I was able to point out the gram stain similarities as well as antibiotic resistances.
+    Visual 3 is more specific (only penicillin), which is helpful in verifying that penicillin is only useful against certain bacteria strains.
 
 # References
 

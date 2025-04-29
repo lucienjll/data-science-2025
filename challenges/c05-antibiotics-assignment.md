@@ -199,12 +199,12 @@ df_antibiotics %>%
     aes(
       x = drugs,
       y = bacteria,
-      size = concentrations,
-      color = concentrations,
+      color = log(concentrations),
       shape = gram
     )
   ) +
-  geom_point(alpha = .7)
+  geom_point(size = 4) +
+  scale_color_gradient(low = "Black", high = "Red") 
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.2-1.png)<!-- -->
@@ -234,7 +234,7 @@ df_antibiotics %>%
     aes(
       x = bacteria,
       y = concentrations,
-      color = satisfactory
+      fill = satisfactory
     )
   ) +
   geom_col() +
@@ -265,13 +265,18 @@ df_antibiotics %>%
   ggplot(
     aes(
       x = concentrations,
-      y = gram,
-      color = bacteria
+      fill = gram,
+      y = bacteria
     )
   ) + 
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+    ) +
   geom_col(position = position_dodge()) +
   coord_flip() +
-  scale_x_log10() 
+  scale_x_log10() +
+  labs(title = "Penicillin Tests")
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.4-1.png)<!-- -->
@@ -287,13 +292,18 @@ df_antibiotics %>%
   ggplot(
     aes(
       x = concentrations,
-      y = gram,
-      color = bacteria
+      fill = gram,
+      y = bacteria
     )
   ) + 
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  ) +
   geom_col(position = position_dodge()) +
   coord_flip() +
-  scale_x_log10() 
+  scale_x_log10() + 
+  labs(title = "Streptomycin Tests")
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.4-2.png)<!-- -->
@@ -309,13 +319,18 @@ df_antibiotics %>%
   ggplot(
     aes(
       x = concentrations,
-      y = gram,
-      color = bacteria
+      fill = gram,
+      y = bacteria
     )
   ) + 
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  ) +
   geom_col(position = position_dodge()) +
   coord_flip() +
-  scale_x_log10() 
+  scale_x_log10() +
+  labs(title = "Neomycin Tests")
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.4-3.png)<!-- -->
@@ -341,7 +356,7 @@ df_antibiotics %>%
     aes(
       x = bacteria,
       y = concentrations,
-      color = drugs
+      fill = drugs
     )
   ) +
   geom_col(position = position_dodge()) +
