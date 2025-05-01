@@ -335,7 +335,7 @@ $$\text{MOE} = 1.645 \times \text{SE}.$$
 df_q4 <- 
   df_q3 %>% 
   mutate(
-    income_SE = income_moe/1.645,
+    income_SE = income_moe / 1.645,
     
     income_lo = income_estimate - (2.576 * income_SE),
     income_hi = income_estimate + (2.576 * income_SE),
@@ -515,7 +515,7 @@ df_data %>%
   - The confidence interval for Nantucket is very large, alongside
     5-person families.
   - The 2 person families have the lowest median household income, while
-    it seems like 6 person families have the highest household income.
+    6 person families tend to have the highest household income.
 - Can you confidently distinguish between household incomes in Suffolk
   county? Why or why not?
   - No because given the range for the household income, household types
@@ -542,12 +542,14 @@ df_q7 <-
   )%>%
   ggplot(
     aes(
-    x = county, 
+    x = population_estimate,
     y = income_SE, 
-    size = population_estimate)
-    ) +
+    color = county, 
+    )
+  ) +
   geom_point(position = position_dodge(width = wid)) +
-  coord_flip()
+  scale_x_log10() +
+  scale_y_log10() 
 ```
 
     ## Warning: There was 1 warning in `mutate()`.
@@ -561,38 +563,30 @@ df_q7 <-
 df_q7
 ```
 
+    ## Warning: `position_dodge()` requires non-overlapping x intervals.
+
     ## Warning: Removed 2 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](c09-income-assignment_files/figure-gfm/q7-task-1.png)<!-- -->
 
-``` r
-  # ggplot(aes(county, income_SE, color = category)) +
-  # geom_errorbar(
-  #   aes(ymin = income_lo, ymax = income_hi),
-  #   position = position_dodge(width = wid)
-  # ) +
-  # geom_point(position = position_dodge(width = wid)) +
-  # 
-  # coord_flip() +
-  # labs(
-  #   x = "County",
-  #   y = "Median Household Income"
-  # )
-```
-
 **Observations**:
 
 - What *overall* trend do you see between `SE` and population? Why might
   this trend exist?
-  - For larger populations, the SE is less. This might be due how the
-    population size affects how much error exists, where a larger
-    population may result in less SE.
+  - For larger population sizes, the standard error tends to be less.
+    This may be due to how the Census Bureau collects data from their
+    sample population, where the sample population is a percentage of
+    the target population. If the Census Bureau uses this sampling
+    method, the counties with larger population will have a larger
+    sample size, resulting in a lower SE.
 - What does this *overall* trend tell you about the relative ease of
   studying small vs large counties?
-  - For large counties, there will often be less standard error,
-    resulting in data being more reliable. When studying small counties,
-    we may need to factor in standard error when making decisions.
+  - If we were secondary researchers trying to take data that has
+    already been collected from sources similar to that of the census
+    Bureau, we must be cautious about the varying standard errors due to
+    the population sizes. It is important to keep the varying SE’s in
+    consideration when trying to study the small counties.
 
 # Going Further
 
@@ -608,12 +602,13 @@ States: Pose your own question and try to answer it with the data.
 
 df_data %>%
   filter(str_detect(geographic_area_name, "California")) %>%
+  filter(str_detect(geographic_area_name, "San") | str_detect(geographic_area_name, "Los")) %>%
   mutate(
     county = str_remove(geographic_area_name, " County,.*$"),
     county = fct_reorder(county, population_estimate)
   )%>%
   
-  ggplot(aes(county, income_estimate, size = population_estimate, color = category)) +
+  ggplot(aes(county, income_estimate, color = category)) +
   geom_errorbar(
     aes(ymin = income_lo, ymax = income_hi),
     position = position_dodge(width = wid)
@@ -627,26 +622,14 @@ df_data %>%
   )
 ```
 
-    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `linewidth` instead.
-    ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
-
-    ## Warning: Removed 5 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
 ![](c09-income-assignment_files/figure-gfm/q8-task-1.png)<!-- -->
 
 **Observations**:
 
-- The largest population resides in Los Angeles, and LA doesn’t have the
-  largest median household income. We see the same trend where the
-  larger populations then to have smaller confidence intervals due to
-  the large sample size. Furthermore, I am noticing that the 4-person
-  category seems to have the smallest confidence interval, which also
-  reinforces the idea that a larger sample size will result in smaller
-  confidence intervals.
+- LA doesn’t have the largest median household income. Furthermore, I am
+  noticing that the 4-person category seems to have the smallest
+  confidence interval, which also reinforces the idea that a larger
+  sample size will result in smaller confidence intervals.
 
 Ideas:
 

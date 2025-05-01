@@ -85,7 +85,7 @@ df_psaap %>%
 **Observations**:
 
 -   140 rows, 22 columns
--   23 variables 
+-   22 variables
 
 The important variables in this dataset are:
 
@@ -187,9 +187,9 @@ rsquare(fit_nonphysical, df_validate)
     -   fit_cheat has the lowest mean square error and the highest rsquare value, which means that the model is most accurate
     -   fit_nonphysical has the highest mean square error and the lowest rsquare value, which means that the model is least accurate
 -   What *Category* of variable is `avg_T`? Why is it such an effective predictor?
-    -   avg-T is an output variable and is a good predictor because it is proportional to T_norm
+    -   avg-T is an output variable. It is a good predictor because it T_norm is computed in terms of avg_T.
 -   Would we have access to `avg_T` if we were trying to predict a *new* value of `T_norm`? Is `avg_T` a valid predictor?
-    -   no because the avg_T and T_norm are both output variables. avg_T changes when T_norm changes. 
+    -   no because the avg_T and T_norm are both output variables. avg_T changes when T_norm changes.
 -   What *Category* of variable is `idx`? Does it have any physical meaning?
     -   idx is a metadata variable. It doesn't have any physical meaning other than denominating simulation runs.
 
@@ -213,7 +213,7 @@ summary(fit_q4)
 **Observations**:
 
 -   Which columns are excluded in the model formula above? What categories do these belong to? Why are these important quantities to leave out of the model?
-    -   the idx, avg_q, avg_T, rms_T have all been excluded. These are output variables which are important to leave out because they aren't input variables. 
+    -   the idx, avg_q, avg_T, rms_T have all been excluded. These are output variables which are important to leave out because they aren't input variables.
 -   Which inputs are *statistically significant*, according to the model?
     -   x, L, W, U_0, C_fp, d_p, I_0
 -   What is the regression coefficient for `x`? What about the regression coefficient for `T_f`?
@@ -226,7 +226,7 @@ summary(fit_q4)
     -   The large regression coefficient and the large standard deviation in x shows that x has a high impact on the regression model, but has a wider spread of possible values
     -   The small regression coefficients in T_f shows that T_f doesn't have much impact on the regression model
 -   Note that literally *all* of the inputs above have *some* effect on the output `T_norm`; so they are all "significant" in that sense. What does this tell us about the limitations of statistical significance for interpreting regression coefficients?
-    -   The statistical significance for the regression coefficients isn't directly related to the significance of the effects
+    -   The statistical significance of the regression coefficients isn't directly related to how large the effects are compared to others.
 
 ## Contrasting CI and PI
 
@@ -382,6 +382,8 @@ df_intervals <-
   add_uncertainties(fit_q6, interval = "confidence", prefix = "ci") %>%
   add_uncertainties(fit_q6, interval = "prediction", prefix = "pi")
 
+
+
 bind_rows(
   df_validate %>% 
     add_uncertainties(fit_q6, interval = "prediction", prefix = "pi") %>% 
@@ -409,21 +411,35 @@ intervals_q6 <-
     prefix = "pi", 
     level = pr_level)
 
+intervals_design <-
+  df_design %>%
+  add_uncertainties(
+    model = fit_q6,
+    interval = "prediction",
+    level = pr_level,
+    prefix = "pi"
+  )
+
+intervals_design %>% 
+  select(pi_fit, pi_lwr, pi_upr)
+
 mean(intervals_q6$pi_lwr <= df_validate$T_norm & df_validate$T_norm <= intervals_q6$pi_upr)
+
+
 ```
 
 **Recommendation**:
 
 -   How much do you trust your model? Why?
-    -   The model has a 93% value, but the rsquare value is lower at 67%. I think that due to the rsquare value being lower, I can't rely on the 93% accuracy to use it as a predictor for T_norm
+    -   The model has a 93% value, but the rsquare value is lower at 67%. However, I am comparing the 93% value to that of the 80% coverage value. Therefore I am able to trust my model as it goes over the 80% coverage.
 -   What kind of interval---confidence or prediction---would you use for this task, and why?
-    -   I would use a prediction interval because we want to understand what new values are going to be. 
+    -   I would use a prediction interval because we want to understand what new values are going to be.
 -   What fraction of validation cases lie within the intervals you predict? (NB. Make sure to calculate your intervals *based on the validation data*; don't just use one single interval!) How does this compare with `pr_level`?
-    -   93% of the validation cases lie within the intervals. This was higher than pr_level. 
+    -   93% of the validation cases lie within the intervals. This was higher than pr_level.
 -   What interval for `T_norm` would you recommend the design team to plan around?
-    -   I would recommend the design team to plan around the higher end of T_norm, at around 0.4 and 1.6 since that seems to be the realized range.
+    -   I would recommend the design team to plan around the higher end of T_norm, at around 0.46 and 2.30 since that seems to be the upper and lower intervals from the design.
 -   Are there any other recommendations you would provide?
-    -   Including other variables that may be uncontrollable will shift T_norm. 
+    -   To reduce further uncertainty, you can add more input variables to control. I would try to control the number of particles, since that seems to be something that is controllable, and not an input variable that we can't control but measure.
 
 *Bonus*: One way you could take this analysis further is to recommend which other variables the design team should tightly control. You could do this by fixing values in `df_design` and adding them to the model. An exercise you could carry out would be to systematically test the variables to see which ones the design team should more tightly control.
 

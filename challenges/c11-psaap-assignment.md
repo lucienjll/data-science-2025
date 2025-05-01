@@ -243,7 +243,7 @@ df_psaap %>%
 **Observations**:
 
 - 140 rows, 22 columns
-- 23 variables
+- 22 variables
 
 The important variables in this dataset are:
 
@@ -387,8 +387,8 @@ rsquare(fit_nonphysical, df_validate)
     rsquare value, which means that the model is least accurate
 - What *Category* of variable is `avg_T`? Why is it such an effective
   predictor?
-  - avg-T is an output variable and is a good predictor because it is
-    proportional to T_norm
+  - avg-T is an output variable. It is a good predictor because it
+    T_norm is computed in terms of avg_T.
 - Would we have access to `avg_T` if we were trying to predict a *new*
   value of `T_norm`? Is `avg_T` a valid predictor?
   - no because the avg_T and T_norm are both output variables. avg_T
@@ -484,8 +484,8 @@ summary(fit_q4)
   the output `T_norm`; so they are all “significant” in that sense. What
   does this tell us about the limitations of statistical significance
   for interpreting regression coefficients?
-  - The statistical significance for the regression coefficients isn’t
-    directly related to the significance of the effects
+  - The statistical significance of the regression coefficients isn’t
+    directly related to how large the effects are compared to others.
 
 ## Contrasting CI and PI
 
@@ -710,6 +710,8 @@ df_intervals <-
   add_uncertainties(fit_q6, interval = "confidence", prefix = "ci") %>%
   add_uncertainties(fit_q6, interval = "prediction", prefix = "pi")
 
+
+
 bind_rows(
   df_validate %>% 
     add_uncertainties(fit_q6, interval = "prediction", prefix = "pi") %>% 
@@ -750,6 +752,25 @@ intervals_q6 <-
     prefix = "pi", 
     level = pr_level)
 
+intervals_design <-
+  df_design %>%
+  add_uncertainties(
+    model = fit_q6,
+    interval = "prediction",
+    level = pr_level,
+    prefix = "pi"
+  )
+
+intervals_design %>% 
+  select(pi_fit, pi_lwr, pi_upr)
+```
+
+    ## # A tibble: 1 × 3
+    ##   pi_fit pi_lwr pi_upr
+    ##    <dbl>  <dbl>  <dbl>
+    ## 1   1.88   1.46   2.30
+
+``` r
 mean(intervals_q6$pi_lwr <= df_validate$T_norm & df_validate$T_norm <= intervals_q6$pi_upr)
 ```
 
@@ -758,9 +779,10 @@ mean(intervals_q6$pi_lwr <= df_validate$T_norm & df_validate$T_norm <= intervals
 **Recommendation**:
 
 - How much do you trust your model? Why?
-  - The model has a 93% value, but the rsquare value is lower at 67%. I
-    think that due to the rsquare value being lower, I can’t rely on the
-    93% accuracy to use it as a predictor for T_norm
+  - The model has a 93% value, but the rsquare value is lower at 67%.
+    However, I am comparing the 93% value to that of the 80% coverage
+    value. Therefore I am able to trust my model as it goes over the 80%
+    coverage.
 - What kind of interval—confidence or prediction—would you use for this
   task, and why?
   - I would use a prediction interval because we want to understand what
@@ -774,11 +796,13 @@ mean(intervals_q6$pi_lwr <= df_validate$T_norm & df_validate$T_norm <= intervals
 - What interval for `T_norm` would you recommend the design team to plan
   around?
   - I would recommend the design team to plan around the higher end of
-    T_norm, at around 0.4 and 1.6 since that seems to be the realized
-    range.
+    T_norm, at around 0.46 and 2.30 since that seems to be the upper and
+    lower intervals from the design.
 - Are there any other recommendations you would provide?
-  - Including other variables that may be uncontrollable will shift
-    T_norm.
+  - To reduce further uncertainty, you can add more input variables to
+    control. I would try to control the number of particles, since that
+    seems to be something that is controllable, and not an input
+    variable that we can’t control but measure.
 
 *Bonus*: One way you could take this analysis further is to recommend
 which other variables the design team should tightly control. You could
